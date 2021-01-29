@@ -2223,12 +2223,11 @@ static int get_certificate_status(const char *serial, CA_DB *db)
 
 static int do_updatedb(CA_DB *db)
 {
-    ASN1_UTCTIME *a_tm = NULL;
+    ASN1_TIME *a_tm = NULL;
     int i, cnt = 0;
-    int db_y2k, a_y2k;          /* flags = 1 if y >= 2000 */
     char **rrow, *a_tm_s;
 
-    a_tm = ASN1_UTCTIME_new();
+    a_tm = ASN1_TIME_new();
     if (a_tm == NULL)
         return -1;
 
@@ -2242,38 +2241,46 @@ static int do_updatedb(CA_DB *db)
     memcpy(a_tm_s, a_tm->data, a_tm->length);
     a_tm_s[a_tm->length] = '\0';
 
-    if (strncmp(a_tm_s, "49", 2) <= 0)
-        a_y2k = 1;
-    else
-        a_y2k = 0;
+    /* ensure always having 4 digits for the year */
+    if (strlen(a_tm_s) == 13) {
+        a_tm_s = (char *) realloc(a_tm_s, 16);
+        memmove (&a_tm_s[2], a_tm_s, 13);
+        /* since this code is created after Y2K, we can
+           ignore the 20th century here */
+        a_tm_s[0]='2';
+        a_tm_s[1]='0';
+    }
 
     for (i = 0; i < sk_OPENSSL_PSTRING_num(db->db->data); i++) {
         rrow = sk_OPENSSL_PSTRING_value(db->db->data, i);
 
         if (rrow[DB_type][0] == DB_TYPE_VAL) {
-            /* ignore entries that are not valid */
-            if (strncmp(rrow[DB_exp_date], "49", 2) <= 0)
-                db_y2k = 1;
-            else
-                db_y2k = 0;
+	    char *exp_date;
+            /* ensure always having 4 digits for the year */
+            if (strlen(rrow[DB_exp_date]) == 13) {
+                exp_date = app_malloc(strlen(rrow[DB_exp_date]) + 3, "expiration date (1)"); 
+		exp_date[0] = '\0';
+                /* since the expiration date can be long in
+		   the past, we have to respect Y2K */
+                if (strncmp(rrow[DB_exp_date], "49", 2) <= 0)
+		    strcat(exp_date, "20");
+		else 
+		    strcat(exp_date, "19");
+		strcat(exp_date, rrow[DB_exp_date]);
+            }
+	    else {
+                exp_date = app_malloc(strlen(rrow[DB_exp_date]) + 1, "expiration date (2)"); 
+		memcpy(exp_date, rrow[DB_exp_date], strlen(rrow[DB_exp_date]));
+	    }
 
-            if (db_y2k == a_y2k) {
-                /* all on the same y2k side */
-                if (strcmp(rrow[DB_exp_date], a_tm_s) <= 0) {
-                    rrow[DB_type][0] = DB_TYPE_EXP;
-                    rrow[DB_type][1] = '\0';
-                    cnt++;
-
-                    BIO_printf(bio_err, "%s=Expired\n", rrow[DB_serial]);
-                }
-            } else if (db_y2k < a_y2k) {
+            if (strcmp(exp_date, a_tm_s) <= 0) {
                 rrow[DB_type][0] = DB_TYPE_EXP;
                 rrow[DB_type][1] = '\0';
                 cnt++;
 
                 BIO_printf(bio_err, "%s=Expired\n", rrow[DB_serial]);
             }
-
+	    OPENSSL_free(exp_date);
         }
     }
 
