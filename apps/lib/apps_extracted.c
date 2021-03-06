@@ -8,7 +8,11 @@
  */
 
 #include <ctype.h>
+#include <errno.h>
 #include <openssl/bio.h>
+#include <openssl/err.h>
+#include <openssl/x509v3.h>
+#include <openssl/conf.h>
 #include "apps.h"
 #include "app_x509.h"
 
