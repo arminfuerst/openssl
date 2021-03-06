@@ -50,7 +50,6 @@ extern const unsigned char tls13_aes128gcmsha256_id[];
 extern const unsigned char tls13_aes256gcmsha384_id[];
 extern BIO_ADDR *ourpeer;
 
-BIO *bio_open_owner(const char *filename, int format, int private);
 CONF *app_load_config_bio(BIO *in, const char *filename);
 #define app_load_config(filename) app_load_config_internal(filename, 0)
 #define app_load_config_quiet(filename) app_load_config_internal(filename, 1)
@@ -58,10 +57,6 @@ CONF *app_load_config_internal(const char *filename, int quiet);
 CONF *app_load_config_verbose(const char *filename, int verbose);
 int app_load_modules(const CONF *config);
 CONF *app_load_config_modules(const char *configfile);
-void wait_for_async(SSL *s);
-# if defined(OPENSSL_SYS_MSDOS)
-int has_stdin_waiting(void);
-# endif
 
 void corrupt_signature(const ASN1_STRING *signature);
 int set_cert_times(X509 *x, const char *startdate, const char *enddate,
