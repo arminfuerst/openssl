@@ -9,6 +9,7 @@
 
 #include <string.h>
 #include "apps.h"
+#include "app_x509.h"
 
 /*
  * X509_ctrl_str() is sorely lacking in libcrypto, but is still needed to
