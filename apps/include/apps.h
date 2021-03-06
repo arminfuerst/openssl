@@ -33,7 +33,6 @@
 # include "platform.h"
 # include "engine_loader.h"
 # include "ca.h"
-# include "apps_extracted.h"
 # include "apps_os_specific.h"
 
 /*
