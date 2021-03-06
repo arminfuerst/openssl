@@ -12,7 +12,6 @@
 
 # include "e_os.h" /* struct timeval for DTLS */
 # include "internal/nelem.h"
-# include "internal/sockets.h" /* for openssl_fdset() */
 # include <assert.h>
 
 # include <stdarg.h>
@@ -34,6 +33,7 @@
 # include "platform.h"
 # include "engine_loader.h"
 # include "ca.h"
+# include "apps_os_specific.h"
 
 /*
  * quick macro when you need to pass an unsigned char instead of a char.
@@ -46,9 +46,6 @@ void app_RAND_load_conf(CONF *c, const char *section);
 void app_RAND_write(void);
 
 extern char *default_config_file; /* may be "" */
-extern BIO *bio_in;
-extern BIO *bio_out;
-extern BIO *bio_err;
 extern const unsigned char tls13_aes128gcmsha256_id[];
 extern const unsigned char tls13_aes256gcmsha384_id[];
 extern BIO_ADDR *ourpeer;
@@ -57,8 +54,6 @@ BIO *dup_bio_in(int format);
 BIO *dup_bio_out(int format);
 BIO *dup_bio_err(int format);
 BIO *bio_open_owner(const char *filename, int format, int private);
-BIO *bio_open_default(const char *filename, char mode, int format);
-BIO *bio_open_default_quiet(const char *filename, char mode, int format);
 CONF *app_load_config_bio(BIO *in, const char *filename);
 #define app_load_config(filename) app_load_config_internal(filename, 0)
 #define app_load_config_quiet(filename) app_load_config_internal(filename, 1)
@@ -188,7 +183,6 @@ int unpack_revinfo(ASN1_TIME **prevtm, int *preason, ASN1_OBJECT **phold,
 # define DB_TYPE_SUSP    'S'    /* Suspended  */
 
 void app_bail_out(char *fmt, ...);
-void* app_malloc(int sz, const char *what);
 BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai);
 int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
                 ASN1_INTEGER **retai);
@@ -278,15 +272,6 @@ ASN1_VALUE *app_http_post_asn1(const char *host, const char *port,
 # define SERIAL_RAND_BITS        159
 
 int app_isdir(const char *);
-int app_access(const char *, int flag);
-int fileno_stdin(void);
-int fileno_stdout(void);
-int raw_read_stdin(void *, int);
-int raw_write_stdout(const void *, int);
-
-# define TM_START        0
-# define TM_STOP         1
-double app_tminterval(int stop, int usertime);
 
 void make_uppercase(char *string);
 
