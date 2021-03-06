@@ -57,4 +57,6 @@ double app_tminterval(int stop, int usertime);
 BIO *bio_open_default_(const char *filename, char mode, int format,
                               int quiet);
 
+int app_rename(const char *_old, const char *_new);
+
 #endif
