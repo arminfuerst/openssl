@@ -9,7 +9,7 @@
 
 #include "../apps/include/ca.h"
 #include "../apps/include/ca_logic.h"
-#include "openssl/x509.h"
+#include <openssl/x509.h>
 #include "../apps/include/apps.h"
 
 int do_updatedb(CA_DB *db, time_t *now)

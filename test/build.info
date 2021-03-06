@@ -521,7 +521,8 @@ IF[{- !$disabled{tests} -}]
   SOURCE[ca_updatedb]=ca_updatedb.c ../apps/ca.c ../apps/lib/ca_logic.c \
                       ../apps/lib/app_provider.c ../apps/lib/fmt.c ../apps/lib/app_x509.c \
                       ../apps/lib/engine.c ../apps/lib/app_rand.c ../apps/lib/apps_ui.c \
-                      ../apps/lib/apps_extracted.c ../apps/lib/apps_os_specific.c
+                      ../apps/lib/apps_extracted.c ../apps/lib/apps_os_specific.c \
+                      ../apps/lib/apps.c
   INCLUDE[ca_updatedb]=.. ../include ../apps/include
   DEPEND[ca_updatedb]=../libssl libtestutil.a 
 
