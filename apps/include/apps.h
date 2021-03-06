@@ -50,9 +50,6 @@ extern const unsigned char tls13_aes128gcmsha256_id[];
 extern const unsigned char tls13_aes256gcmsha384_id[];
 extern BIO_ADDR *ourpeer;
 
-BIO *dup_bio_in(int format);
-BIO *dup_bio_out(int format);
-BIO *dup_bio_err(int format);
 BIO *bio_open_owner(const char *filename, int format, int private);
 CONF *app_load_config_bio(BIO *in, const char *filename);
 #define app_load_config(filename) app_load_config_internal(filename, 0)
@@ -61,7 +58,6 @@ CONF *app_load_config_internal(const char *filename, int quiet);
 CONF *app_load_config_verbose(const char *filename, int verbose);
 int app_load_modules(const CONF *config);
 CONF *app_load_config_modules(const char *configfile);
-void unbuffer(FILE *fp);
 void wait_for_async(SSL *s);
 # if defined(OPENSSL_SYS_MSDOS)
 int has_stdin_waiting(void);
@@ -270,8 +266,6 @@ ASN1_VALUE *app_http_post_asn1(const char *host, const char *port,
  * rules won't force a leading octet.
  */
 # define SERIAL_RAND_BITS        159
-
-int app_isdir(const char *);
 
 void make_uppercase(char *string);
 

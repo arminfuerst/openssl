@@ -14,6 +14,21 @@
 
 # include "internal/sockets.h" /* for openssl_fdset() */
 
+extern BIO *bio_in;
+extern BIO *bio_out;
+extern BIO *bio_err;
+
+BIO *dup_bio_in(int format);
+BIO *dup_bio_out(int format);
+BIO *dup_bio_err(int format);
+BIO *bio_open_default(const char *filename, char mode, int format);
+BIO *bio_open_default_quiet(const char *filename, char mode, int format);
+
+void unbuffer(FILE *fp);
+
+void* app_malloc(int sz, const char *what);
+
+int app_isdir(const char *);
 int app_access(const char *, int flag);
 int fileno_stdin(void);
 int fileno_stdout(void);
@@ -23,14 +38,6 @@ int raw_write_stdout(const void *, int);
 # define TM_START        0
 # define TM_STOP         1
 double app_tminterval(int stop, int usertime);
-
-void* app_malloc(int sz, const char *what);
-extern BIO *bio_in;
-extern BIO *bio_out;
-extern BIO *bio_err;
-
-BIO *bio_open_default(const char *filename, char mode, int format);
-BIO *bio_open_default_quiet(const char *filename, char mode, int format);
 
 /* moved from apps.c */
 
