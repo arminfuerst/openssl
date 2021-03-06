@@ -34,6 +34,7 @@
 # include "engine_loader.h"
 # include "ca.h"
 # include "apps_os_specific.h"
+# include "apps_extracted.h"
 
 /*
  * quick macro when you need to pass an unsigned char instead of a char.
