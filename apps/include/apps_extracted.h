@@ -88,7 +88,7 @@ void app_providers_cleanup(void);
 
 OSSL_LIB_CTX *app_get0_libctx(void);
 int app_set_propq(const char *arg);
-//const char *app_get0_propq(void);
+const char *app_get0_propq(void);
 
 /* extracted from apps.c */
 #define PASS_SOURCE_SIZE_MAX 4

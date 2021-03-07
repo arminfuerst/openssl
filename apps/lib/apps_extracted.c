@@ -16,7 +16,6 @@
 #include "apps.h"
 #include "app_x509.h"
 
-//static OSSL_LIB_CTX *app_libctx = NULL;
 static OSSL_LIB_CTX *app_libctx = NULL;
 
 //static int set_table_opts(unsigned long *flags, const char *arg,
@@ -172,18 +171,18 @@ OSSL_LIB_CTX *app_get0_libctx(void)
     return app_libctx;
 }
 
-//static const char *app_propq = NULL;
-//
-//int app_set_propq(const char *arg)
-//{
-//    app_propq = arg;
-//    return 1;
-//}
-//
-//const char *app_get0_propq(void)
-//{
-//    return app_propq;
-//}
+static const char *app_propq = NULL;
+
+int app_set_propq(const char *arg)
+{
+    app_propq = arg;
+    return 1;
+}
+
+const char *app_get0_propq(void)
+{
+    return app_propq;
+}
 
 OSSL_LIB_CTX *app_create_libctx(void)
 {

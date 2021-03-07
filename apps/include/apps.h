@@ -284,6 +284,6 @@ void app_params_free(OSSL_PARAM *params);
 
 //OSSL_LIB_CTX *app_get0_libctx(void);
 //int app_set_propq(const char *arg);
-const char *app_get0_propq(void);
+//const char *app_get0_propq(void);
 
 #endif
