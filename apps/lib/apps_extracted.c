@@ -1315,23 +1315,23 @@ X509_NAME *parse_name(const char *cp, int chtype, int canmulti,
     return NULL;
 }
 
-//int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value)
-//{
-//    int rv;
-//    char *stmp, *vtmp = NULL;
-//    stmp = OPENSSL_strdup(value);
-//    if (!stmp)
-//        return -1;
-//    vtmp = strchr(stmp, ':');
-//    if (vtmp) {
-//        *vtmp = 0;
-//        vtmp++;
-//    }
-//    rv = EVP_PKEY_CTX_ctrl_str(ctx, stmp, vtmp);
-//    OPENSSL_free(stmp);
-//    return rv;
-//}
-//
+int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value)
+{
+    int rv;
+    char *stmp, *vtmp = NULL;
+    stmp = OPENSSL_strdup(value);
+    if (!stmp)
+        return -1;
+    vtmp = strchr(stmp, ':');
+    if (vtmp) {
+        *vtmp = 0;
+        vtmp++;
+    }
+    rv = EVP_PKEY_CTX_ctrl_str(ctx, stmp, vtmp);
+    OPENSSL_free(stmp);
+    return rv;
+}
+
 //static int do_pkey_ctx_init(EVP_PKEY_CTX *pkctx, STACK_OF(OPENSSL_STRING) *opts)
 //{
 //    int i;
