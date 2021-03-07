@@ -1929,27 +1929,27 @@ static int do_x509_req_init(X509_REQ *x, STACK_OF(OPENSSL_STRING) *opts)
     return 1;
 }
 
-static int do_sign_init(EVP_MD_CTX *ctx, EVP_PKEY *pkey,
-                        const EVP_MD *md, STACK_OF(OPENSSL_STRING) *sigopts)
-{
-    EVP_PKEY_CTX *pkctx = NULL;
-    int def_nid;
-
-    if (ctx == NULL)
-        return 0;
-    /*
-     * EVP_PKEY_get_default_digest_nid() returns 2 if the digest is mandatory
-     * for this algorithm.
-     */
-    if (EVP_PKEY_get_default_digest_nid(pkey, &def_nid) == 2
-            && def_nid == NID_undef) {
-        /* The signing algorithm requires there to be no digest */
-        md = NULL;
-    }
-    return EVP_DigestSignInit(ctx, &pkctx, md, NULL, pkey)
-        && do_pkey_ctx_init(pkctx, sigopts);
-}
-
+//static int do_sign_init(EVP_MD_CTX *ctx, EVP_PKEY *pkey,
+//                        const EVP_MD *md, STACK_OF(OPENSSL_STRING) *sigopts)
+//{
+//    EVP_PKEY_CTX *pkctx = NULL;
+//    int def_nid;
+//
+//    if (ctx == NULL)
+//        return 0;
+//    /*
+//     * EVP_PKEY_get_default_digest_nid() returns 2 if the digest is mandatory
+//     * for this algorithm.
+//     */
+//    if (EVP_PKEY_get_default_digest_nid(pkey, &def_nid) == 2
+//            && def_nid == NID_undef) {
+//        /* The signing algorithm requires there to be no digest */
+//        md = NULL;
+//    }
+//    return EVP_DigestSignInit(ctx, &pkctx, md, NULL, pkey)
+//        && do_pkey_ctx_init(pkctx, sigopts);
+//}
+//
 //static int adapt_keyid_ext(X509 *cert, X509V3_CTX *ext_ctx,
 //                           const char *name, const char *value, int add_default)
 //{
@@ -2017,31 +2017,31 @@ static int do_sign_init(EVP_MD_CTX *ctx, EVP_PKEY *pkey,
 //    return rv;
 //}
 //
-///* Sign the certificate request info */
-//int do_X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md,
-//                     STACK_OF(OPENSSL_STRING) *sigopts)
-//{
-//    int rv = 0;
-//    EVP_MD_CTX *mctx = EVP_MD_CTX_new();
-//
-//    if (do_sign_init(mctx, pkey, md, sigopts) > 0)
-//        rv = (X509_REQ_sign_ctx(x, mctx) > 0);
-//    EVP_MD_CTX_free(mctx);
-//    return rv;
-//}
-
-/* Sign the CRL info */
-int do_X509_CRL_sign(X509_CRL *x, EVP_PKEY *pkey, const EVP_MD *md,
+/* Sign the certificate request info */
+int do_X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md,
                      STACK_OF(OPENSSL_STRING) *sigopts)
 {
     int rv = 0;
     EVP_MD_CTX *mctx = EVP_MD_CTX_new();
 
     if (do_sign_init(mctx, pkey, md, sigopts) > 0)
-        rv = (X509_CRL_sign_ctx(x, mctx) > 0);
+        rv = (X509_REQ_sign_ctx(x, mctx) > 0);
     EVP_MD_CTX_free(mctx);
     return rv;
 }
+//
+///* Sign the CRL info */
+//int do_X509_CRL_sign(X509_CRL *x, EVP_PKEY *pkey, const EVP_MD *md,
+//                     STACK_OF(OPENSSL_STRING) *sigopts)
+//{
+//    int rv = 0;
+//    EVP_MD_CTX *mctx = EVP_MD_CTX_new();
+//
+//    if (do_sign_init(mctx, pkey, md, sigopts) > 0)
+//        rv = (X509_CRL_sign_ctx(x, mctx) > 0);
+//    EVP_MD_CTX_free(mctx);
+//    return rv;
+//}
 
 int do_X509_verify(X509 *x, EVP_PKEY *pkey, STACK_OF(OPENSSL_STRING) *vfyopts)
 {
