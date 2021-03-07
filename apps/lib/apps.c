@@ -354,17 +354,17 @@ int wrap_password_callback(char *buf, int bufsiz, int verify, void *userdata)
 //    NCONF_free(conf);
 //    return NULL;
 //}
-
-CONF *app_load_config_verbose(const char *filename, int verbose)
-{
-    if (verbose) {
-        if (*filename == '\0')
-            BIO_printf(bio_err, "No configuration used\n");
-        else
-            BIO_printf(bio_err, "Using configuration from %s\n", filename);
-    }
-    return app_load_config_internal(filename, 0);
-}
+//
+//CONF *app_load_config_verbose(const char *filename, int verbose)
+//{
+//    if (verbose) {
+//        if (*filename == '\0')
+//            BIO_printf(bio_err, "No configuration used\n");
+//        else
+//            BIO_printf(bio_err, "Using configuration from %s\n", filename);
+//    }
+//    return app_load_config_internal(filename, 0);
+//}
 
 CONF *app_load_config_internal(const char *filename, int quiet)
 {

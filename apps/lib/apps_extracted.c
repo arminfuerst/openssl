@@ -229,17 +229,17 @@ CONF *app_load_config_bio(BIO *in, const char *filename)
     return NULL;
 }
 
-//CONF *app_load_config_verbose(const char *filename, int verbose)
-//{
-//    if (verbose) {
-//        if (*filename == '\0')
-//            BIO_printf(bio_err, "No configuration used\n");
-//        else
-//            BIO_printf(bio_err, "Using configuration from %s\n", filename);
-//    }
-//    return app_load_config_internal(filename, 0);
-//}
-//
+CONF *app_load_config_verbose(const char *filename, int verbose)
+{
+    if (verbose) {
+        if (*filename == '\0')
+            BIO_printf(bio_err, "No configuration used\n");
+        else
+            BIO_printf(bio_err, "Using configuration from %s\n", filename);
+    }
+    return app_load_config_internal(filename, 0);
+}
+
 //CONF *app_load_config_internal(const char *filename, int quiet)
 //{
 //    BIO *in = NULL; /* leads to empty config in case filename == "" */

@@ -17,7 +17,7 @@
 //#define app_load_config(filename) app_load_config_internal(filename, 0)
 //#define app_load_config_quiet(filename) app_load_config_internal(filename, 1)
 //CONF *app_load_config_internal(const char *filename, int quiet);
-//CONF *app_load_config_verbose(const char *filename, int verbose);
+CONF *app_load_config_verbose(const char *filename, int verbose);
 //int app_load_modules(const CONF *config);
 //
 //int set_cert_times(X509 *x, const char *startdate, const char *enddate,
