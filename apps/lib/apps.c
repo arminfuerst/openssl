@@ -1568,27 +1568,27 @@ int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
 //        OPENSSL_free(db);
 //    }
 //}
-
-int parse_yesno(const char *str, int def)
-{
-    if (str) {
-        switch (*str) {
-        case 'f':              /* false */
-        case 'F':              /* FALSE */
-        case 'n':              /* no */
-        case 'N':              /* NO */
-        case '0':              /* 0 */
-            return 0;
-        case 't':              /* true */
-        case 'T':              /* TRUE */
-        case 'y':              /* yes */
-        case 'Y':              /* YES */
-        case '1':              /* 1 */
-            return 1;
-        }
-    }
-    return def;
-}
+//
+//int parse_yesno(const char *str, int def)
+//{
+//    if (str) {
+//        switch (*str) {
+//        case 'f':              /* false */
+//        case 'F':              /* FALSE */
+//        case 'n':              /* no */
+//        case 'N':              /* NO */
+//        case '0':              /* 0 */
+//            return 0;
+//        case 't':              /* true */
+//        case 'T':              /* TRUE */
+//        case 'y':              /* yes */
+//        case 'Y':              /* YES */
+//        case '1':              /* 1 */
+//            return 1;
+//        }
+//    }
+//    return def;
+//}
 
 /*
  * name is expected to be in the format /type0=value0/type1=value1/type2=...
