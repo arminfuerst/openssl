@@ -518,7 +518,7 @@ IF[{- !$disabled{tests} -}]
   INCLUDE[cmp_client_test]=.. ../include ../apps/include
   DEPEND[cmp_client_test]=../libcrypto.a libtestutil.a
 
-  SOURCE[ca_updatedb]=ca_updatedb.c
+  SOURCE[ca_updatedb]=ca_updatedb.c ../apps/lib/apps_extracted.c
   INCLUDE[ca_updatedb]=.. ../include ../apps/include
   DEPEND[ca_updatedb]=../apps/libapps.a ../libcrypto ../libssl libtestutil.a 
 

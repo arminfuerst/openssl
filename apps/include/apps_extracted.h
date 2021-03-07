@@ -94,4 +94,9 @@ typedef struct {
     unsigned long mask;
 } NAME_EX_TBL;
 
+/* newly added */
+
+/* removed static */
+int do_pkey_ctx_init(EVP_PKEY_CTX *pkctx, STACK_OF(OPENSSL_STRING) *opts);
+
 #endif
