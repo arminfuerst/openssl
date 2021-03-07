@@ -175,29 +175,29 @@ int unpack_revinfo(ASN1_TIME **prevtm, int *preason, ASN1_OBJECT **phold,
 # define DB_TYPE_SUSP    'S'    /* Suspended  */
 
 void app_bail_out(char *fmt, ...);
-BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai);
-int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
-                ASN1_INTEGER **retai);
-int rotate_serial(const char *serialfile, const char *new_suffix,
-                  const char *old_suffix);
-int rand_serial(BIGNUM *b, ASN1_INTEGER *ai);
-CA_DB *load_index(const char *dbfile, DB_ATTR *dbattr);
-int index_index(CA_DB *db);
-int save_index(const char *dbfile, const char *suffix, CA_DB *db);
-int rotate_index(const char *dbfile, const char *new_suffix,
-                 const char *old_suffix);
-void free_index(CA_DB *db);
-# define index_name_cmp_noconst(a, b) \
+//BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai);
+//int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
+//                ASN1_INTEGER **retai);
+//int rotate_serial(const char *serialfile, const char *new_suffix,
+//                  const char *old_suffix);
+//int rand_serial(BIGNUM *b, ASN1_INTEGER *ai);
+//CA_DB *load_index(const char *dbfile, DB_ATTR *dbattr);
+//int index_index(CA_DB *db);
+//int save_index(const char *dbfile, const char *suffix, CA_DB *db);
+/*int rotate_index(const char *dbfile, const char *new_suffix,
+                 const char *old_suffix);*/
+//void free_index(CA_DB *db);
+/*# define index_name_cmp_noconst(a, b) \
         index_name_cmp((const OPENSSL_CSTRING *)CHECKED_PTR_OF(OPENSSL_STRING, a), \
         (const OPENSSL_CSTRING *)CHECKED_PTR_OF(OPENSSL_STRING, b))
-int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b);
+int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b);*/
 int parse_yesno(const char *str, int def);
 
-X509_NAME *parse_name(const char *str, int chtype, int multirdn,
-                      const char *desc);
+/*X509_NAME *parse_name(const char *str, int chtype, int multirdn,
+                      const char *desc);*/
 void policies_print(X509_STORE_CTX *ctx);
 int bio_to_mem(unsigned char **out, int maxlen, BIO *in);
-int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value);
+//int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value);
 int x509_ctrl_string(X509 *x, const char *value);
 int x509_req_ctrl_string(X509_REQ *x, const char *value);
 int init_gen_str(EVP_PKEY_CTX **pctx,

@@ -793,10 +793,10 @@ static unsigned long index_name_hash(const OPENSSL_CSTRING *a)
     return OPENSSL_LH_strhash(a[DB_name]);
 }
 
-//int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
-//{
-//    return strcmp(a[DB_name], b[DB_name]);
-//}
+int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
+{
+    return strcmp(a[DB_name], b[DB_name]);
+}
 
 static IMPLEMENT_LHASH_HASH_FN(index_serial, OPENSSL_CSTRING)
 static IMPLEMENT_LHASH_COMP_FN(index_serial, OPENSSL_CSTRING)

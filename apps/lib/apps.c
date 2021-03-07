@@ -1177,12 +1177,12 @@ X509_STORE *setup_verify(const char *CAfile, int noCAfile,
 //{
 //    return OPENSSL_LH_strhash(a[DB_name]);
 //}
-
-int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
-{
-    return strcmp(a[DB_name], b[DB_name]);
-}
-
+//
+//int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
+//{
+//    return strcmp(a[DB_name], b[DB_name]);
+//}
+//
 //static IMPLEMENT_LHASH_HASH_FN(index_serial, OPENSSL_CSTRING)
 //static IMPLEMENT_LHASH_COMP_FN(index_serial, OPENSSL_CSTRING)
 //static IMPLEMENT_LHASH_HASH_FN(index_name, OPENSSL_CSTRING)
