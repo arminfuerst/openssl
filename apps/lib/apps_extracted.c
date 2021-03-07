@@ -16,9 +16,8 @@
 #include "apps.h"
 #include "app_x509.h"
 
-
 //static OSSL_LIB_CTX *app_libctx = NULL;
-OSSL_LIB_CTX *app_libctx = NULL;
+static OSSL_LIB_CTX *app_libctx = NULL;
 
 //static int set_table_opts(unsigned long *flags, const char *arg,
 //                          const NAME_EX_TBL * in_tbl);
