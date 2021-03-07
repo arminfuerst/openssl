@@ -13,7 +13,7 @@
 # include <openssl/x509.h>
 # include "apps_os_specific.h"
 
-CONF *app_load_config_bio(BIO *in, const char *filename);
+//CONF *app_load_config_bio(BIO *in, const char *filename);
 //#define app_load_config(filename) app_load_config_internal(filename, 0)
 //#define app_load_config_quiet(filename) app_load_config_internal(filename, 1)
 //CONF *app_load_config_internal(const char *filename, int quiet);
@@ -80,8 +80,8 @@ int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value);
 //int do_X509_REQ_verify(X509_REQ *x, EVP_PKEY *pkey,
 //                       STACK_OF(OPENSSL_STRING) *vfyopts);
 
-OSSL_LIB_CTX *app_create_libctx(void);
-OSSL_LIB_CTX *app_get0_libctx(void);
+//OSSL_LIB_CTX *app_create_libctx(void);
+//OSSL_LIB_CTX *app_get0_libctx(void);
 //
 //int app_provider_load(OSSL_LIB_CTX *libctx, const char *provider_name);
 //

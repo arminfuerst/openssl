@@ -51,7 +51,7 @@ extern const unsigned char tls13_aes128gcmsha256_id[];
 extern const unsigned char tls13_aes256gcmsha384_id[];
 extern BIO_ADDR *ourpeer;
 
-//CONF *app_load_config_bio(BIO *in, const char *filename);
+CONF *app_load_config_bio(BIO *in, const char *filename);
 #define app_load_config(filename) app_load_config_internal(filename, 0)
 #define app_load_config_quiet(filename) app_load_config_internal(filename, 1)
 CONF *app_load_config_internal(const char *filename, int quiet);
@@ -274,8 +274,8 @@ typedef struct verify_options_st {
 
 extern VERIFY_CB_ARGS verify_args;
 
-//OSSL_LIB_CTX *app_create_libctx(void);
-//OSSL_LIB_CTX *app_get0_libctx(void);
+OSSL_LIB_CTX *app_create_libctx(void);
+OSSL_LIB_CTX *app_get0_libctx(void);
 OSSL_PARAM *app_params_new_from_opts(STACK_OF(OPENSSL_STRING) *opts,
                                      const OSSL_PARAM *paramdefs);
 void app_params_free(OSSL_PARAM *params);
