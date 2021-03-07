@@ -85,4 +85,13 @@
 //OSSL_LIB_CTX *app_get0_libctx(void);
 //const char *app_get0_propq(void);
 
+/* extracted from apps.c */
+#define PASS_SOURCE_SIZE_MAX 4
+
+typedef struct {
+    const char *name;
+    unsigned long flag;
+    unsigned long mask;
+} NAME_EX_TBL;
+
 #endif

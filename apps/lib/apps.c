@@ -33,7 +33,7 @@
 #include "s_apps.h"
 #include "apps.h"
 
-#define PASS_SOURCE_SIZE_MAX 4
+/*#define PASS_SOURCE_SIZE_MAX 4
 
 DEFINE_STACK_OF(CONF)
 
@@ -42,7 +42,7 @@ typedef struct {
     unsigned long flag;
     unsigned long mask;
 } NAME_EX_TBL;
-
+*/
 static OSSL_LIB_CTX *app_libctx = NULL;
 
 static int set_table_opts(unsigned long *flags, const char *arg,

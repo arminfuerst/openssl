@@ -17,14 +17,6 @@
 #include "app_x509.h"
 
 
-//#define PASS_SOURCE_SIZE_MAX 4
-//
-//typedef struct {
-//    const char *name;
-//    unsigned long flag;
-//    unsigned long mask;
-//} NAME_EX_TBL;
-//
 //static OSSL_LIB_CTX *app_libctx = NULL;
 //
 //static int set_table_opts(unsigned long *flags, const char *arg,
