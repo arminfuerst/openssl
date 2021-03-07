@@ -74,6 +74,8 @@ int pkey_ctrl_string(EVP_PKEY_CTX *ctx, const char *value);
 //int x509_ctrl_string(X509 *x, const char *value);
 //int do_X509_sign(X509 *x, EVP_PKEY *pkey, const EVP_MD *md,
 //                 STACK_OF(OPENSSL_STRING) *sigopts, X509V3_CTX *ext_ctx);
+int do_X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md,
+                     STACK_OF(OPENSSL_STRING) *sigopts);
 //int do_X509_REQ_verify(X509_REQ *x, EVP_PKEY *pkey,
 //                       STACK_OF(OPENSSL_STRING) *vfyopts);
 //

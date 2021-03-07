@@ -1477,20 +1477,20 @@ int do_X509_sign(X509 *cert, EVP_PKEY *pkey, const EVP_MD *md,
     EVP_MD_CTX_free(mctx);
     return rv;
 }
-//
-///* Sign the certificate request info */
-//int do_X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md,
-//                     STACK_OF(OPENSSL_STRING) *sigopts)
-//{
-//    int rv = 0;
-//    EVP_MD_CTX *mctx = EVP_MD_CTX_new();
-//
-//    if (do_sign_init(mctx, pkey, md, sigopts) > 0)
-//        rv = (X509_REQ_sign_ctx(x, mctx) > 0);
-//    EVP_MD_CTX_free(mctx);
-//    return rv;
-//}
-//
+
+/* Sign the certificate request info */
+int do_X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md,
+                     STACK_OF(OPENSSL_STRING) *sigopts)
+{
+    int rv = 0;
+    EVP_MD_CTX *mctx = EVP_MD_CTX_new();
+
+    if (do_sign_init(mctx, pkey, md, sigopts) > 0)
+        rv = (X509_REQ_sign_ctx(x, mctx) > 0);
+    EVP_MD_CTX_free(mctx);
+    return rv;
+}
+
 ///* Sign the CRL info */
 //int do_X509_CRL_sign(X509_CRL *x, EVP_PKEY *pkey, const EVP_MD *md,
 //                     STACK_OF(OPENSSL_STRING) *sigopts)
