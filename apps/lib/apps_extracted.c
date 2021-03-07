@@ -1060,53 +1060,53 @@ int index_index(CA_DB *db)
     return 0;
 }
 
-//int save_index(const char *dbfile, const char *suffix, CA_DB *db)
-//{
-//    char buf[3][BSIZE];
-//    BIO *out;
-//    int j;
-//
-//    j = strlen(dbfile) + strlen(suffix);
-//    if (j + 6 >= BSIZE) {
-//        BIO_printf(bio_err, "File name too long\n");
-//        goto err;
-//    }
-//#ifndef OPENSSL_SYS_VMS
-//    j = BIO_snprintf(buf[2], sizeof(buf[2]), "%s.attr", dbfile);
-//    j = BIO_snprintf(buf[1], sizeof(buf[1]), "%s.attr.%s", dbfile, suffix);
-//    j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s.%s", dbfile, suffix);
-//#else
-//    j = BIO_snprintf(buf[2], sizeof(buf[2]), "%s-attr", dbfile);
-//    j = BIO_snprintf(buf[1], sizeof(buf[1]), "%s-attr-%s", dbfile, suffix);
-//    j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s-%s", dbfile, suffix);
-//#endif
-//    out = BIO_new_file(buf[0], "w");
-//    if (out == NULL) {
-//        perror(dbfile);
-//        BIO_printf(bio_err, "Unable to open '%s'\n", dbfile);
-//        goto err;
-//    }
-//    j = TXT_DB_write(out, db->db);
-//    BIO_free(out);
-//    if (j <= 0)
-//        goto err;
-//
-//    out = BIO_new_file(buf[1], "w");
-//    if (out == NULL) {
-//        perror(buf[2]);
-//        BIO_printf(bio_err, "Unable to open '%s'\n", buf[2]);
-//        goto err;
-//    }
-//    BIO_printf(out, "unique_subject = %s\n",
-//               db->attributes.unique_subject ? "yes" : "no");
-//    BIO_free(out);
-//
-//    return 1;
-// err:
-//    ERR_print_errors(bio_err);
-//    return 0;
-//}
-//
+int save_index(const char *dbfile, const char *suffix, CA_DB *db)
+{
+    char buf[3][BSIZE];
+    BIO *out;
+    int j;
+
+    j = strlen(dbfile) + strlen(suffix);
+    if (j + 6 >= BSIZE) {
+        BIO_printf(bio_err, "File name too long\n");
+        goto err;
+    }
+#ifndef OPENSSL_SYS_VMS
+    j = BIO_snprintf(buf[2], sizeof(buf[2]), "%s.attr", dbfile);
+    j = BIO_snprintf(buf[1], sizeof(buf[1]), "%s.attr.%s", dbfile, suffix);
+    j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s.%s", dbfile, suffix);
+#else
+    j = BIO_snprintf(buf[2], sizeof(buf[2]), "%s-attr", dbfile);
+    j = BIO_snprintf(buf[1], sizeof(buf[1]), "%s-attr-%s", dbfile, suffix);
+    j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s-%s", dbfile, suffix);
+#endif
+    out = BIO_new_file(buf[0], "w");
+    if (out == NULL) {
+        perror(dbfile);
+        BIO_printf(bio_err, "Unable to open '%s'\n", dbfile);
+        goto err;
+    }
+    j = TXT_DB_write(out, db->db);
+    BIO_free(out);
+    if (j <= 0)
+        goto err;
+
+    out = BIO_new_file(buf[1], "w");
+    if (out == NULL) {
+        perror(buf[2]);
+        BIO_printf(bio_err, "Unable to open '%s'\n", buf[2]);
+        goto err;
+    }
+    BIO_printf(out, "unique_subject = %s\n",
+               db->attributes.unique_subject ? "yes" : "no");
+    BIO_free(out);
+
+    return 1;
+ err:
+    ERR_print_errors(bio_err);
+    return 0;
+}
+
 //int rotate_index(const char *dbfile, const char *new_suffix,
 //                 const char *old_suffix)
 //{
