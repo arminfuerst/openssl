@@ -804,51 +804,51 @@
 //static IMPLEMENT_LHASH_COMP_FN(index_name, OPENSSL_CSTRING)
 #undef BSIZE
 #define BSIZE 256
-//BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai)
-//{
-//    BIO *in = NULL;
-//    BIGNUM *ret = NULL;
-//    char buf[1024];
-//    ASN1_INTEGER *ai = NULL;
-//
-//    ai = ASN1_INTEGER_new();
-//    if (ai == NULL)
-//        goto err;
-//
-//    in = BIO_new_file(serialfile, "r");
-//    if (in == NULL) {
-//        if (!create) {
-//            perror(serialfile);
-//            goto err;
-//        }
-//        ERR_clear_error();
-//        ret = BN_new();
-//        if (ret == NULL || !rand_serial(ret, ai))
-//            BIO_printf(bio_err, "Out of memory\n");
-//    } else {
-//        if (!a2i_ASN1_INTEGER(in, ai, buf, 1024)) {
-//            BIO_printf(bio_err, "Unable to load number from %s\n",
-//                       serialfile);
-//            goto err;
-//        }
-//        ret = ASN1_INTEGER_to_BN(ai, NULL);
-//        if (ret == NULL) {
-//            BIO_printf(bio_err, "Error converting number from bin to BIGNUM\n");
-//            goto err;
-//        }
-//    }
-//
-//    if (ret && retai) {
-//        *retai = ai;
-//        ai = NULL;
-//    }
-// err:
-//    ERR_print_errors(bio_err);
-//    BIO_free(in);
-//    ASN1_INTEGER_free(ai);
-//    return ret;
-//}
-//
+BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai)
+{
+    BIO *in = NULL;
+    BIGNUM *ret = NULL;
+    char buf[1024];
+    ASN1_INTEGER *ai = NULL;
+
+    ai = ASN1_INTEGER_new();
+    if (ai == NULL)
+        goto err;
+
+    in = BIO_new_file(serialfile, "r");
+    if (in == NULL) {
+        if (!create) {
+            perror(serialfile);
+            goto err;
+        }
+        ERR_clear_error();
+        ret = BN_new();
+        if (ret == NULL || !rand_serial(ret, ai))
+            BIO_printf(bio_err, "Out of memory\n");
+    } else {
+        if (!a2i_ASN1_INTEGER(in, ai, buf, 1024)) {
+            BIO_printf(bio_err, "Unable to load number from %s\n",
+                       serialfile);
+            goto err;
+        }
+        ret = ASN1_INTEGER_to_BN(ai, NULL);
+        if (ret == NULL) {
+            BIO_printf(bio_err, "Error converting number from bin to BIGNUM\n");
+            goto err;
+        }
+    }
+
+    if (ret && retai) {
+        *retai = ai;
+        ai = NULL;
+    }
+ err:
+    ERR_print_errors(bio_err);
+    BIO_free(in);
+    ASN1_INTEGER_free(ai);
+    return ret;
+}
+
 //int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
 //                ASN1_INTEGER **retai)
 //{
