@@ -33,16 +33,6 @@
 #include "s_apps.h"
 #include "apps.h"
 
-/*#define PASS_SOURCE_SIZE_MAX 4
-
-DEFINE_STACK_OF(CONF)
-
-typedef struct {
-    const char *name;
-    unsigned long flag;
-    unsigned long mask;
-} NAME_EX_TBL;
-*/
 static OSSL_LIB_CTX *app_libctx = NULL;
 
 static int set_table_opts(unsigned long *flags, const char *arg,
@@ -1197,6 +1187,7 @@ static IMPLEMENT_LHASH_HASH_FN(index_serial, OPENSSL_CSTRING)
 static IMPLEMENT_LHASH_COMP_FN(index_serial, OPENSSL_CSTRING)
 static IMPLEMENT_LHASH_HASH_FN(index_name, OPENSSL_CSTRING)
 static IMPLEMENT_LHASH_COMP_FN(index_name, OPENSSL_CSTRING)
+/* BSIZE - to be deleted */
 #undef BSIZE
 #define BSIZE 256
 BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai)
@@ -1363,69 +1354,69 @@ int rand_serial(BIGNUM *b, ASN1_INTEGER *ai)
     return ret;
 }
 
-CA_DB *load_index(const char *dbfile, DB_ATTR *db_attr)
-{
-    CA_DB *retdb = NULL;
-    TXT_DB *tmpdb = NULL;
-    BIO *in;
-    CONF *dbattr_conf = NULL;
-    char buf[BSIZE];
-#ifndef OPENSSL_NO_POSIX_IO
-    FILE *dbfp;
-    struct stat dbst;
-#endif
-
-    in = BIO_new_file(dbfile, "r");
-    if (in == NULL)
-        goto err;
-
-#ifndef OPENSSL_NO_POSIX_IO
-    BIO_get_fp(in, &dbfp);
-    if (fstat(fileno(dbfp), &dbst) == -1) {
-        ERR_raise_data(ERR_LIB_SYS, errno,
-                       "calling fstat(%s)", dbfile);
-        goto err;
-    }
-#endif
-
-    if ((tmpdb = TXT_DB_read(in, DB_NUMBER)) == NULL)
-        goto err;
-
-#ifndef OPENSSL_SYS_VMS
-    BIO_snprintf(buf, sizeof(buf), "%s.attr", dbfile);
-#else
-    BIO_snprintf(buf, sizeof(buf), "%s-attr", dbfile);
-#endif
-    dbattr_conf = app_load_config_quiet(buf);
-
-    retdb = app_malloc(sizeof(*retdb), "new DB");
-    retdb->db = tmpdb;
-    tmpdb = NULL;
-    if (db_attr)
-        retdb->attributes = *db_attr;
-    else {
-        retdb->attributes.unique_subject = 1;
-    }
-
-    if (dbattr_conf) {
-        char *p = NCONF_get_string(dbattr_conf, NULL, "unique_subject");
-        if (p) {
-            retdb->attributes.unique_subject = parse_yesno(p, 1);
-        }
-    }
-
-    retdb->dbfname = OPENSSL_strdup(dbfile);
-#ifndef OPENSSL_NO_POSIX_IO
-    retdb->dbst = dbst;
-#endif
-
- err:
-    ERR_print_errors(bio_err);
-    NCONF_free(dbattr_conf);
-    TXT_DB_free(tmpdb);
-    BIO_free_all(in);
-    return retdb;
-}
+//CA_DB *load_index(const char *dbfile, DB_ATTR *db_attr)
+//{
+//    CA_DB *retdb = NULL;
+//    TXT_DB *tmpdb = NULL;
+//    BIO *in;
+//    CONF *dbattr_conf = NULL;
+//    char buf[BSIZE];
+//#ifndef OPENSSL_NO_POSIX_IO
+//    FILE *dbfp;
+//    struct stat dbst;
+//#endif
+//
+//    in = BIO_new_file(dbfile, "r");
+//    if (in == NULL)
+//        goto err;
+//
+//#ifndef OPENSSL_NO_POSIX_IO
+//    BIO_get_fp(in, &dbfp);
+//    if (fstat(fileno(dbfp), &dbst) == -1) {
+//        ERR_raise_data(ERR_LIB_SYS, errno,
+//                       "calling fstat(%s)", dbfile);
+//        goto err;
+//    }
+//#endif
+//
+//    if ((tmpdb = TXT_DB_read(in, DB_NUMBER)) == NULL)
+//        goto err;
+//
+//#ifndef OPENSSL_SYS_VMS
+//    BIO_snprintf(buf, sizeof(buf), "%s.attr", dbfile);
+//#else
+//    BIO_snprintf(buf, sizeof(buf), "%s-attr", dbfile);
+//#endif
+//    dbattr_conf = app_load_config_quiet(buf);
+//
+//    retdb = app_malloc(sizeof(*retdb), "new DB");
+//    retdb->db = tmpdb;
+//    tmpdb = NULL;
+//    if (db_attr)
+//        retdb->attributes = *db_attr;
+//    else {
+//        retdb->attributes.unique_subject = 1;
+//    }
+//
+//    if (dbattr_conf) {
+//        char *p = NCONF_get_string(dbattr_conf, NULL, "unique_subject");
+//        if (p) {
+//            retdb->attributes.unique_subject = parse_yesno(p, 1);
+//        }
+//    }
+//
+//    retdb->dbfname = OPENSSL_strdup(dbfile);
+//#ifndef OPENSSL_NO_POSIX_IO
+//    retdb->dbst = dbst;
+//#endif
+//
+// err:
+//    ERR_print_errors(bio_err);
+//    NCONF_free(dbattr_conf);
+//    TXT_DB_free(tmpdb);
+//    BIO_free_all(in);
+//    return retdb;
+//}
 
 /*
  * Returns > 0 on success, <= 0 on error
