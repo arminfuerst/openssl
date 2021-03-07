@@ -240,19 +240,19 @@ CONF *app_load_config_verbose(const char *filename, int verbose)
     return app_load_config_internal(filename, 0);
 }
 
-//CONF *app_load_config_internal(const char *filename, int quiet)
-//{
-//    BIO *in = NULL; /* leads to empty config in case filename == "" */
-//    CONF *conf;
-//
-//    if (*filename != '\0'
-//        && (in = bio_open_default_(filename, 'r', FORMAT_TEXT, quiet)) == NULL)
-//        return NULL;
-//    conf = app_load_config_bio(in, filename);
-//    BIO_free(in);
-//    return conf;
-//}
-//
+CONF *app_load_config_internal(const char *filename, int quiet)
+{
+    BIO *in = NULL; /* leads to empty config in case filename == "" */
+    CONF *conf;
+
+    if (*filename != '\0'
+        && (in = bio_open_default_(filename, 'r', FORMAT_TEXT, quiet)) == NULL)
+        return NULL;
+    conf = app_load_config_bio(in, filename);
+    BIO_free(in);
+    return conf;
+}
+
 //int app_load_modules(const CONF *config)
 //{
 //    CONF *to_free = NULL;
