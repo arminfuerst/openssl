@@ -134,23 +134,23 @@ int ctx_set_ctlog_list_file(SSL_CTX *ctx, const char *path)
 
 #endif
 
-static unsigned long nmflag = 0;
-static char nmflag_set = 0;
+//static unsigned long nmflag = 0;
+//static char nmflag_set = 0;
 
-int set_nameopt(const char *arg)
-{
-    int ret = set_name_ex(&nmflag, arg);
+//int set_nameopt(const char *arg)
+//{
+//    int ret = set_name_ex(&nmflag, arg);
+//
+//    if (ret)
+//        nmflag_set = 1;
+//
+//    return ret;
+//}
 
-    if (ret)
-        nmflag_set = 1;
-
-    return ret;
-}
-
-unsigned long get_nameopt(void)
-{
-    return (nmflag_set) ? nmflag : XN_FLAG_ONELINE;
-}
+//unsigned long get_nameopt(void)
+//{
+//    return (nmflag_set) ? nmflag : XN_FLAG_ONELINE;
+//}
 
 int dump_cert_text(BIO *out, X509 *x)
 {

@@ -25,24 +25,24 @@
 //                          const NAME_EX_TBL * in_tbl);
 //int set_name_ex(unsigned long *flags, const char *arg);
 //
-//static unsigned long nmflag = 0;
-//static char nmflag_set = 0;
-//
-//int set_nameopt(const char *arg)
-//{
-//    int ret = set_name_ex(&nmflag, arg);
-//
-//    if (ret)
-//        nmflag_set = 1;
-//
-//    return ret;
-//}
-//
-//unsigned long get_nameopt(void)
-//{
-//    return (nmflag_set) ? nmflag : XN_FLAG_ONELINE;
-//}
-//
+static unsigned long nmflag = 0;
+static char nmflag_set = 0;
+
+int set_nameopt(const char *arg)
+{
+    int ret = set_name_ex(&nmflag, arg);
+
+    if (ret)
+        nmflag_set = 1;
+
+    return ret;
+}
+
+unsigned long get_nameopt(void)
+{
+    return (nmflag_set) ? nmflag : XN_FLAG_ONELINE;
+}
+
 //static char *app_get_pass(const char *arg, int keepbio);
 //
 //int app_passwd(const char *arg1, const char *arg2, char **pass1, char **pass2)
@@ -1523,8 +1523,8 @@ int do_pkey_ctx_init(EVP_PKEY_CTX *pkctx, STACK_OF(OPENSSL_STRING) *opts)
 //    return rv;
 //}
 //
-///* Get first http URL from a DIST_POINT structure */
-//
+/* Get first http URL from a DIST_POINT structure */
+
 //static const char *get_dp_url(DIST_POINT *dp)
 //{
 //    GENERAL_NAMES *gens;
