@@ -17,8 +17,8 @@
 #include "app_x509.h"
 
 
-//static OSSL_LIB_CTX *app_libctx = NULL;
-//
+static OSSL_LIB_CTX *app_libctx = NULL;
+
 //static int set_table_opts(unsigned long *flags, const char *arg,
 //                          const NAME_EX_TBL * in_tbl);
 //static int set_multi_opts(unsigned long *flags, const char *arg,
@@ -167,11 +167,11 @@ static char *app_get_pass(const char *arg, int keepbio)
     return OPENSSL_strdup(tpass);
 }
 
-//OSSL_LIB_CTX *app_get0_libctx(void)
-//{
-//    return app_libctx;
-//}
-//
+OSSL_LIB_CTX *app_get0_libctx(void)
+{
+    return app_libctx;
+}
+
 //static const char *app_propq = NULL;
 //
 //int app_set_propq(const char *arg)
@@ -184,52 +184,52 @@ static char *app_get_pass(const char *arg, int keepbio)
 //{
 //    return app_propq;
 //}
-//
-//OSSL_LIB_CTX *app_create_libctx(void)
-//{
-//    /*
-//     * Load the NULL provider into the default library context and create a
-//     * library context which will then be used for any OPT_PROV options.
-//     */
-//    if (app_libctx == NULL) {
-//
-//        if (!app_provider_load(NULL, "null")) {
-//            BIO_puts(bio_err, "Failed to create null provider\n");
-//            return NULL;
-//        }
-//        app_libctx = OSSL_LIB_CTX_new();
-//    }
-//    if (app_libctx == NULL)
-//        BIO_puts(bio_err, "Failed to create library context\n");
-//    return app_libctx;
-//}
-//
-//CONF *app_load_config_bio(BIO *in, const char *filename)
-//{
-//    long errorline = -1;
-//    CONF *conf;
-//    int i;
-//
-//    conf = NCONF_new_ex(app_libctx, NULL);
-//    i = NCONF_load_bio(conf, in, &errorline);
-//    if (i > 0)
-//        return conf;
-//
-//    if (errorline <= 0) {
-//        BIO_printf(bio_err, "%s: Can't load ", opt_getprog());
-//    } else {
-//        BIO_printf(bio_err, "%s: Error on line %ld of ", opt_getprog(),
-//                   errorline);
-//    }
-//    if (filename != NULL)
-//        BIO_printf(bio_err, "config file \"%s\"\n", filename);
-//    else
-//        BIO_printf(bio_err, "config input");
-//
-//    NCONF_free(conf);
-//    return NULL;
-//}
-//
+
+OSSL_LIB_CTX *app_create_libctx(void)
+{
+    /*
+     * Load the NULL provider into the default library context and create a
+     * library context which will then be used for any OPT_PROV options.
+     */
+    if (app_libctx == NULL) {
+
+        if (!app_provider_load(NULL, "null")) {
+            BIO_puts(bio_err, "Failed to create null provider\n");
+            return NULL;
+        }
+        app_libctx = OSSL_LIB_CTX_new();
+    }
+    if (app_libctx == NULL)
+        BIO_puts(bio_err, "Failed to create library context\n");
+    return app_libctx;
+}
+
+CONF *app_load_config_bio(BIO *in, const char *filename)
+{
+    long errorline = -1;
+    CONF *conf;
+    int i;
+
+    conf = NCONF_new_ex(app_libctx, NULL);
+    i = NCONF_load_bio(conf, in, &errorline);
+    if (i > 0)
+        return conf;
+
+    if (errorline <= 0) {
+        BIO_printf(bio_err, "%s: Can't load ", opt_getprog());
+    } else {
+        BIO_printf(bio_err, "%s: Error on line %ld of ", opt_getprog(),
+                   errorline);
+    }
+    if (filename != NULL)
+        BIO_printf(bio_err, "config file \"%s\"\n", filename);
+    else
+        BIO_printf(bio_err, "config input");
+
+    NCONF_free(conf);
+    return NULL;
+}
+
 //CONF *app_load_config_verbose(const char *filename, int verbose)
 //{
 //    if (verbose) {
