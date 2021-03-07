@@ -1674,12 +1674,12 @@ int do_pkey_ctx_init(EVP_PKEY_CTX *pkctx, STACK_OF(OPENSSL_STRING) *opts)
 //    ASN1_TIME_free(tm);
 //    return ret;
 //}
-//
-//void make_uppercase(char *string)
-//{
-//    int i;
-//
-//    for (i = 0; string[i] != '\0'; i++)
-//        string[i] = toupper((unsigned char)string[i]);
-//}
+
+void make_uppercase(char *string)
+{
+    int i;
+
+    for (i = 0; string[i] != '\0'; i++)
+        string[i] = toupper((unsigned char)string[i]);
+}
 

@@ -2352,13 +2352,13 @@ end:
     return ret;
 }
 
-void make_uppercase(char *string)
-{
-    int i;
-
-    for (i = 0; string[i] != '\0'; i++)
-        string[i] = toupper((unsigned char)string[i]);
-}
+//void make_uppercase(char *string)
+//{
+//    int i;
+//
+//    for (i = 0; string[i] != '\0'; i++)
+//        string[i] = toupper((unsigned char)string[i]);
+//}
 
 int opt_printf_stderr(const char *fmt, ...)
 {
