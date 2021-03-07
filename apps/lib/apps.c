@@ -1559,15 +1559,15 @@ int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
 //    ERR_print_errors(bio_err);
 //    return 0;
 //}
-
-void free_index(CA_DB *db)
-{
-    if (db) {
-        TXT_DB_free(db->db);
-        OPENSSL_free(db->dbfname);
-        OPENSSL_free(db);
-    }
-}
+//
+//void free_index(CA_DB *db)
+//{
+//    if (db) {
+//        TXT_DB_free(db->db);
+//        OPENSSL_free(db->dbfname);
+//        OPENSSL_free(db);
+//    }
+//}
 
 int parse_yesno(const char *str, int def)
 {

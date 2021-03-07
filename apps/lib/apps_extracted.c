@@ -1174,15 +1174,15 @@ int rotate_index(const char *dbfile, const char *new_suffix,
     return 0;
 }
 
-//void free_index(CA_DB *db)
-//{
-//    if (db) {
-//        TXT_DB_free(db->db);
-//        OPENSSL_free(db->dbfname);
-//        OPENSSL_free(db);
-//    }
-//}
-//
+void free_index(CA_DB *db)
+{
+    if (db) {
+        TXT_DB_free(db->db);
+        OPENSSL_free(db->dbfname);
+        OPENSSL_free(db);
+    }
+}
+
 //int parse_yesno(const char *str, int def)
 //{
 //    if (str) {
