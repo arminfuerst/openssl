@@ -1235,56 +1235,56 @@ static IMPLEMENT_LHASH_COMP_FN(index_name, OPENSSL_CSTRING)
 //    return ret;
 //}
 
-int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
-                ASN1_INTEGER **retai)
-{
-    char buf[1][BSIZE];
-    BIO *out = NULL;
-    int ret = 0;
-    ASN1_INTEGER *ai = NULL;
-    int j;
-
-    if (suffix == NULL)
-        j = strlen(serialfile);
-    else
-        j = strlen(serialfile) + strlen(suffix) + 1;
-    if (j >= BSIZE) {
-        BIO_printf(bio_err, "File name too long\n");
-        goto err;
-    }
-
-    if (suffix == NULL)
-        OPENSSL_strlcpy(buf[0], serialfile, BSIZE);
-    else {
-#ifndef OPENSSL_SYS_VMS
-        j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s.%s", serialfile, suffix);
-#else
-        j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s-%s", serialfile, suffix);
-#endif
-    }
-    out = BIO_new_file(buf[0], "w");
-    if (out == NULL) {
-        goto err;
-    }
-
-    if ((ai = BN_to_ASN1_INTEGER(serial, NULL)) == NULL) {
-        BIO_printf(bio_err, "error converting serial to ASN.1 format\n");
-        goto err;
-    }
-    i2a_ASN1_INTEGER(out, ai);
-    BIO_puts(out, "\n");
-    ret = 1;
-    if (retai) {
-        *retai = ai;
-        ai = NULL;
-    }
- err:
-    if (!ret)
-        ERR_print_errors(bio_err);
-    BIO_free_all(out);
-    ASN1_INTEGER_free(ai);
-    return ret;
-}
+//int save_serial(const char *serialfile, const char *suffix, const BIGNUM *serial,
+//                ASN1_INTEGER **retai)
+//{
+//    char buf[1][BSIZE];
+//    BIO *out = NULL;
+//    int ret = 0;
+//    ASN1_INTEGER *ai = NULL;
+//    int j;
+//
+//    if (suffix == NULL)
+//        j = strlen(serialfile);
+//    else
+//        j = strlen(serialfile) + strlen(suffix) + 1;
+//    if (j >= BSIZE) {
+//        BIO_printf(bio_err, "File name too long\n");
+//        goto err;
+//    }
+//
+//    if (suffix == NULL)
+//        OPENSSL_strlcpy(buf[0], serialfile, BSIZE);
+//    else {
+//#ifndef OPENSSL_SYS_VMS
+//        j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s.%s", serialfile, suffix);
+//#else
+//        j = BIO_snprintf(buf[0], sizeof(buf[0]), "%s-%s", serialfile, suffix);
+//#endif
+//    }
+//    out = BIO_new_file(buf[0], "w");
+//    if (out == NULL) {
+//        goto err;
+//    }
+//
+//    if ((ai = BN_to_ASN1_INTEGER(serial, NULL)) == NULL) {
+//        BIO_printf(bio_err, "error converting serial to ASN.1 format\n");
+//        goto err;
+//    }
+//    i2a_ASN1_INTEGER(out, ai);
+//    BIO_puts(out, "\n");
+//    ret = 1;
+//    if (retai) {
+//        *retai = ai;
+//        ai = NULL;
+//    }
+// err:
+//    if (!ret)
+//        ERR_print_errors(bio_err);
+//    BIO_free_all(out);
+//    ASN1_INTEGER_free(ai);
+//    return ret;
+//}
 
 int rotate_serial(const char *serialfile, const char *new_suffix,
                   const char *old_suffix)
