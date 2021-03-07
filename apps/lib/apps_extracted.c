@@ -762,46 +762,46 @@
 //    }
 //    return 0;
 //}
-//
-//static unsigned long index_serial_hash(const OPENSSL_CSTRING *a)
-//{
-//    const char *n;
-//
-//    n = a[DB_serial];
-//    while (*n == '0')
-//        n++;
-//    return OPENSSL_LH_strhash(n);
-//}
-//
-//static int index_serial_cmp(const OPENSSL_CSTRING *a,
-//                            const OPENSSL_CSTRING *b)
-//{
-//    const char *aa, *bb;
-//
-//    for (aa = a[DB_serial]; *aa == '0'; aa++) ;
-//    for (bb = b[DB_serial]; *bb == '0'; bb++) ;
-//    return strcmp(aa, bb);
-//}
-//
-//static int index_name_qual(char **a)
-//{
-//    return (a[0][0] == 'V');
-//}
-//
-//static unsigned long index_name_hash(const OPENSSL_CSTRING *a)
-//{
-//    return OPENSSL_LH_strhash(a[DB_name]);
-//}
-//
+
+static unsigned long index_serial_hash(const OPENSSL_CSTRING *a)
+{
+    const char *n;
+
+    n = a[DB_serial];
+    while (*n == '0')
+        n++;
+    return OPENSSL_LH_strhash(n);
+}
+
+static int index_serial_cmp(const OPENSSL_CSTRING *a,
+                            const OPENSSL_CSTRING *b)
+{
+    const char *aa, *bb;
+
+    for (aa = a[DB_serial]; *aa == '0'; aa++) ;
+    for (bb = b[DB_serial]; *bb == '0'; bb++) ;
+    return strcmp(aa, bb);
+}
+
+static int index_name_qual(char **a)
+{
+    return (a[0][0] == 'V');
+}
+
+static unsigned long index_name_hash(const OPENSSL_CSTRING *a)
+{
+    return OPENSSL_LH_strhash(a[DB_name]);
+}
+
 //int index_name_cmp(const OPENSSL_CSTRING *a, const OPENSSL_CSTRING *b)
 //{
 //    return strcmp(a[DB_name], b[DB_name]);
 //}
-//
-//static IMPLEMENT_LHASH_HASH_FN(index_serial, OPENSSL_CSTRING)
-//static IMPLEMENT_LHASH_COMP_FN(index_serial, OPENSSL_CSTRING)
-//static IMPLEMENT_LHASH_HASH_FN(index_name, OPENSSL_CSTRING)
-//static IMPLEMENT_LHASH_COMP_FN(index_name, OPENSSL_CSTRING)
+
+static IMPLEMENT_LHASH_HASH_FN(index_serial, OPENSSL_CSTRING)
+static IMPLEMENT_LHASH_COMP_FN(index_serial, OPENSSL_CSTRING)
+static IMPLEMENT_LHASH_HASH_FN(index_name, OPENSSL_CSTRING)
+static IMPLEMENT_LHASH_COMP_FN(index_name, OPENSSL_CSTRING)
 #undef BSIZE
 #define BSIZE 256
 BIGNUM *load_serial(const char *serialfile, int create, ASN1_INTEGER **retai)
@@ -1032,34 +1032,34 @@ CA_DB *load_index(const char *dbfile, DB_ATTR *db_attr)
     return retdb;
 }
 
-///*
-// * Returns > 0 on success, <= 0 on error
-// */
-//int index_index(CA_DB *db)
-//{
-//    if (!TXT_DB_create_index(db->db, DB_serial, NULL,
-//                             LHASH_HASH_FN(index_serial),
-//                             LHASH_COMP_FN(index_serial))) {
-//        BIO_printf(bio_err,
-//                   "Error creating serial number index:(%ld,%ld,%ld)\n",
-//                   db->db->error, db->db->arg1, db->db->arg2);
-//        goto err;
-//    }
-//
-//    if (db->attributes.unique_subject
-//        && !TXT_DB_create_index(db->db, DB_name, index_name_qual,
-//                                LHASH_HASH_FN(index_name),
-//                                LHASH_COMP_FN(index_name))) {
-//        BIO_printf(bio_err, "Error creating name index:(%ld,%ld,%ld)\n",
-//                   db->db->error, db->db->arg1, db->db->arg2);
-//        goto err;
-//    }
-//    return 1;
-// err:
-//    ERR_print_errors(bio_err);
-//    return 0;
-//}
-//
+/*
+ * Returns > 0 on success, <= 0 on error
+ */
+int index_index(CA_DB *db)
+{
+    if (!TXT_DB_create_index(db->db, DB_serial, NULL,
+                             LHASH_HASH_FN(index_serial),
+                             LHASH_COMP_FN(index_serial))) {
+        BIO_printf(bio_err,
+                   "Error creating serial number index:(%ld,%ld,%ld)\n",
+                   db->db->error, db->db->arg1, db->db->arg2);
+        goto err;
+    }
+
+    if (db->attributes.unique_subject
+        && !TXT_DB_create_index(db->db, DB_name, index_name_qual,
+                                LHASH_HASH_FN(index_name),
+                                LHASH_COMP_FN(index_name))) {
+        BIO_printf(bio_err, "Error creating name index:(%ld,%ld,%ld)\n",
+                   db->db->error, db->db->arg1, db->db->arg2);
+        goto err;
+    }
+    return 1;
+ err:
+    ERR_print_errors(bio_err);
+    return 0;
+}
+
 //int save_index(const char *dbfile, const char *suffix, CA_DB *db)
 //{
 //    char buf[3][BSIZE];
