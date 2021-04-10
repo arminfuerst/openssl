@@ -10,6 +10,7 @@
 #include <string.h>
 #include <openssl/err.h>
 #include <openssl/ui.h>
+#include "apps_globals.h"
 #include "apps_ui.h"
 
 static UI_METHOD *ui_method = NULL;
@@ -151,7 +152,15 @@ const UI_METHOD *get_ui_method(void)
 
 static void *ui_malloc(int sz, const char *what)
 {
-    void *vp = OPENSSL_malloc(sz);
+    void *vp = NULL;
+    size_t size_t_sz;
+
+    if (!int_2_size_t(sz, &size_t_sz)) {
+        BIO_printf(bio_err, "Invalid size (%d bytes) for %s\n", sz, what);
+        ERR_print_errors(bio_err);
+        exit(1);
+    }
+    vp = OPENSSL_malloc(size_t_sz);
 
     if (vp == NULL) {
         BIO_printf(bio_err, "Could not allocate %d bytes for %s\n", sz, what);

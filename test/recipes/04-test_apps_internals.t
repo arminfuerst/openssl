@@ -160,6 +160,111 @@ my @file_io_tests = (
     }
 );
 
+my @conversion_tests = (
+    # str_2_size_t
+    {
+        description => 'convert string to size_t, happy path minimal valid value',
+        command => 'str_2_size_t',
+        value => '0',
+        output_expected => '0',
+        exit_expected => 1
+    },
+    {
+        description => 'convert string to size_t, happy path',
+        command => 'str_2_size_t',
+        value => '73',
+        output_expected => '73',
+        exit_expected => 1
+    },
+    {
+        description => 'convert string to size_t, invalid value',
+        command => 'str_2_size_t',
+        value => '-1',
+        output_expected => '',
+        exit_expected => 0
+    },
+    {
+        description => 'convert string to size_t, non-integer value',
+        command => 'str_2_size_t',
+        value => 'INVALIDVALUE',
+        output_expected => '',
+        exit_expected => 0
+    },
+    # str_2_int
+    {
+        description => 'convert size_t to int, happy path minimal valid',
+        command => 'str_2_int',
+        value => '0',
+        output_expected => '0',
+        exit_expected => 1
+    },
+    {
+        description => 'convert size_t to int, happy path',
+        command => 'str_2_int',
+        value => '7',
+        output_expected => '7',
+        exit_expected => 1
+    },
+    {
+        description => 'convert size_t to int, INVALID VALUE',
+        command => 'str_2_int',
+        value => 'INVALIDVALUE',
+        output_expected => '',
+        exit_expected => 0
+    },
+    # int_2_size_t
+    {
+        description => 'convert int to size_t, happy path minimal valid value',
+        command => 'int_2_size_t',
+        value => '0',
+        output_expected => '0',
+        exit_expected => 1
+    },
+    {
+        description => 'convert int to size_t, happy path',
+        command => 'int_2_size_t',
+        value => '5',
+        output_expected => '5',
+        exit_expected => 1
+    },
+    {
+        description => 'convert int to size_t, invalid value',
+        command => 'int_2_size_t',
+        value => '-1',
+        output_expected => '',
+        exit_expected => 0
+    },
+    {
+        description => 'convert int to size_t, non-integer value',
+        command => 'int_2_size_t',
+        value => 'INVALIDVALUE',
+        output_expected => '',
+        exit_expected => 0
+    },
+    # size_t_2_int
+    {
+        description => 'convert size_t to int, happy path minimal valid',
+        command => 'size_t_2_int',
+        value => '0',
+        output_expected => '0',
+        exit_expected => 1
+    },
+    {
+        description => 'convert size_t to int, happy path',
+        command => 'size_t_2_int',
+        value => '7',
+        output_expected => '7',
+        exit_expected => 1
+    },
+    {
+        description => 'convert size_t to int, INVALID VALUE',
+        command => 'size_t_2_int',
+        value => 'INVALIDVALUE',
+        output_expected => '',
+        exit_expected => 0
+    }
+ );
+
 my @unsupported_commands = (
     { 
         command => 'unsupported'
@@ -170,6 +275,7 @@ my @unsupported_commands = (
 plan tests => 3 * scalar(@app_rename_tests) +
               3 * scalar(@app_strcasecmp_tests) +
               2 * 2 * scalar(@file_io_tests) +
+              2 * scalar(@conversion_tests) +
               1 * scalar(@unsupported_commands);
 
 
@@ -185,10 +291,12 @@ foreach my $test (@file_io_tests) {
 foreach my $test (@file_io_tests) {
     test_file_io('app_fdopen', $test);
 }
+foreach my $test (@conversion_tests) {
+    test_conversion($test);
+}
 foreach my $test (@unsupported_commands) {
     test_unsupported_commands($test);
 }
-
 
 ################### subs to do tests per supported command ################
 
@@ -300,3 +408,26 @@ sub test_file_io {
         $opts->{exit_expected}."' (".$opts->{description}.")");
 }
 
+sub test_conversion {
+    my ($opts) = @_;
+    my @output;
+
+    @output = run(
+        test(['apps_internals_test',
+            $opts->{command},
+            $opts->{value}
+        ]),
+        capture => 1,
+        statusvar => \my $exit
+    );
+    my $rv = '';
+    foreach my $tmp (@output) {
+        if ($tmp =~ /^[\s]+#\sResult:\s'/) {
+            ($rv) = $tmp =~ /^[\s]+#\sResult:\s'([^']*)'/;
+        }
+    }
+    is($rv, $opts->{output_expected}, "apps_internals_test/".$opts->{command}.": result is '$rv' instead of '".
+        $opts->{output_expected}."' (".$opts->{description}.")");
+    is($exit, $opts->{exit_expected}, "apps_internals_test/".$opts->{command}.": exit code is '$exit' instead of '".
+        $opts->{exit_expected}."' (".$opts->{description}.")");
+}

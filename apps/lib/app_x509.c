@@ -35,12 +35,19 @@
 static ASN1_OCTET_STRING *mk_octet_string(void *value, size_t value_n)
 {
     ASN1_OCTET_STRING *v = ASN1_OCTET_STRING_new();
+    int int_value_n;
 
-    if (v == NULL) {
-        BIO_printf(bio_err, "error: allocation failed\n");
-    } else if (!ASN1_OCTET_STRING_set(v, value, value_n)) {
+    if (!size_t_2_int(value_n, &int_value_n)) {
         ASN1_OCTET_STRING_free(v);
         v = NULL;
+    }
+    else {
+        if (v == NULL) {
+            BIO_printf(bio_err, "error: allocation failed\n");
+        } else if (!ASN1_OCTET_STRING_set(v, value, int_value_n)) {
+            ASN1_OCTET_STRING_free(v);
+            v = NULL;
+        }
     }
     return v;
 }
@@ -349,8 +356,17 @@ X509_NAME *parse_name(const char *cp, int chtype, int canmulti,
                        opt_getprog(), desc, typestr);
             continue;
         }
+        int int_strlen;
+        size_t size_t_strlen;
+        size_t_strlen = strlen((char *)valstr);
+        if (!size_t_2_int(size_t_strlen, &int_strlen)) {
+            BIO_printf(bio_err, "%s, parse_name: string is too long\n",
+                opt_getprog());
+            goto err;
+        }
+
         if (!X509_NAME_add_entry_by_NID(n, nid, chtype,
-                                        valstr, strlen((char *)valstr),
+                                        valstr, int_strlen,
                                         -1, ismulti ? -1 : 0)) {
             ERR_print_errors(bio_err);
             BIO_printf(bio_err,

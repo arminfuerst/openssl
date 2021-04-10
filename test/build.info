@@ -453,7 +453,8 @@ IF[{- !$disabled{tests} -}]
   INCLUDE[cipher_overhead_test]=.. ../include ../apps/include
   DEPEND[cipher_overhead_test]=../libcrypto.a ../libssl.a libtestutil.a
 
-  SOURCE[uitest]=uitest.c ../apps/lib/apps_ui.c
+  SOURCE[uitest]=uitest.c ../apps/lib/apps_ui.c ../apps/lib/apps_globals.c \
+    ../apps/lib/apps_os_wrapper.c ../apps/lib/fmt.c
   INCLUDE[uitest]=.. ../include ../apps/include
   DEPEND[uitest]=../libcrypto ../libssl libtestutil.a
 

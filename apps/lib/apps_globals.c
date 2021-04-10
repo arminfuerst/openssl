@@ -60,7 +60,7 @@ void make_uppercase(char *string)
     int i;
 
     for (i = 0; string[i] != '\0'; i++)
-        string[i] = toupper((unsigned char)string[i]);
+        string[i] = (char)toupper((unsigned char)string[i]);
 }
 
 int app_isdir(const char *name)
@@ -116,5 +116,79 @@ void *app_malloc(size_t sz, const char *what)
         app_bail_out("%s: Could not allocate %zu bytes for %s\n",
                      opt_getprog(), sz, what);
     return vp;
+}
+
+int int_2_size_t(int src, size_t *dst)
+{
+    if (src >= 0) {
+        *dst = (size_t)src;
+        return 1;
+    }
+    return 0;
+}
+
+int size_t_2_int(size_t src, int *dst)
+{
+    if (src <= INT_MAX) {
+        *dst = (int)src;
+        return 1;
+    }
+    return 0;
+}
+
+int str_2_int(const char *src, int *dst)
+{
+    char *end;
+
+    errno = 0;
+
+    const long sl = strtol(src, &end, 10);
+
+    if (end == src) {
+        // string was not a decimal number
+        return 0;
+    } else if ('\0' != *end) {
+        // extra characters ad the end
+        return 0;
+    } else if ((LONG_MIN == sl || LONG_MAX == sl) && ERANGE == errno) {
+        // out of range
+        return 0;
+    } else if (sl > INT_MAX) {
+        // top big for integer
+        return 0;
+    } else if (sl < INT_MIN) {
+        // too small for integer
+        return 0;
+    }
+    *dst = (int)sl;
+    return 1;
+}
+
+int str_2_size_t(const char *src, size_t *dst)
+{
+    char *end;
+
+    errno = 0;
+
+    const long long sl = strtoll(src, &end, 10);
+
+    if (end == src) {
+        // string was not a decimal number
+        return 0;
+    } else if ('\0' != *end) {
+        // extra characters ad the end
+        return 0;
+    } else if ((LLONG_MIN == sl || LLONG_MAX == sl) && ERANGE == errno) {
+        // out of range
+        return 0;
+    } else if (sl > SIZE_MAX) {
+        // top big for integer
+        return 0;
+    } else if (sl < 0) {
+        // too small for size_t
+        return 0;
+    }
+    *dst = (int)sl;
+    return 1;
 }
 

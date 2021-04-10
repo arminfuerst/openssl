@@ -33,4 +33,9 @@ int app_isdir(const char *);
 void app_bail_out(char *fmt, ...);
 void *app_malloc(size_t sz, const char *what);
 
+int int_2_size_t(int src, size_t *dst);
+int size_t_2_int(size_t src, int *dst);
+int str_2_int(const char *src, int *dst);
+int str_2_size_t(const char *src, size_t *dst);
+
 #endif
