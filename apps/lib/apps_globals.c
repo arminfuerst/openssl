@@ -181,7 +181,7 @@ int str_2_size_t(const char *src, size_t *dst)
     } else if ((LLONG_MIN == sl || LLONG_MAX == sl) && ERANGE == errno) {
         // out of range
         return 0;
-    } else if (sl > SIZE_MAX) {
+    } else if (sl > (long long)SIZE_MAX) {
         // top big for integer
         return 0;
     } else if (sl < 0) {
