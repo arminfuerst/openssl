@@ -139,7 +139,7 @@ int size_t_2_int(size_t src, int *dst)
 int str_2_int(const char *src, int *dst)
 {
     char *end;
-    const long sl;
+    long sl;
 
     errno = 0;
 
@@ -168,7 +168,7 @@ int str_2_int(const char *src, int *dst)
 int str_2_size_t(const char *src, size_t *dst)
 {
     char *end;
-    const long long sl;
+    long long sl;
 
     errno = 0;
 
