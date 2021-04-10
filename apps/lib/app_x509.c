@@ -304,6 +304,9 @@ X509_NAME *parse_name(const char *cp, int chtype, int canmulti,
         unsigned char *valstr;
         int nid;
         int ismulti = nextismulti;
+        int int_strlen;
+        size_t size_t_strlen;
+
         nextismulti = 0;
 
         /* Collect the type */
@@ -356,8 +359,6 @@ X509_NAME *parse_name(const char *cp, int chtype, int canmulti,
                        opt_getprog(), desc, typestr);
             continue;
         }
-        int int_strlen;
-        size_t size_t_strlen;
         size_t_strlen = strlen((char *)valstr);
         if (!size_t_2_int(size_t_strlen, &int_strlen)) {
             BIO_printf(bio_err, "%s, parse_name: string is too long\n",

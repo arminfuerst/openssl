@@ -139,25 +139,26 @@ int size_t_2_int(size_t src, int *dst)
 int str_2_int(const char *src, int *dst)
 {
     char *end;
+    const long sl;
 
     errno = 0;
 
-    const long sl = strtol(src, &end, 10);
+    sl = strtol(src, &end, 10);
 
     if (end == src) {
-        // string was not a decimal number
+        /* string was not a decimal number */
         return 0;
     } else if ('\0' != *end) {
-        // extra characters ad the end
+        /* extra characters ad the end */
         return 0;
     } else if ((LONG_MIN == sl || LONG_MAX == sl) && ERANGE == errno) {
-        // out of range
+        /* out of range */
         return 0;
     } else if (sl > INT_MAX) {
-        // top big for integer
+        /* too big for integer */
         return 0;
     } else if (sl < INT_MIN) {
-        // too small for integer
+        /* too small for integer */
         return 0;
     }
     *dst = (int)sl;
@@ -167,25 +168,26 @@ int str_2_int(const char *src, int *dst)
 int str_2_size_t(const char *src, size_t *dst)
 {
     char *end;
+    const long long sl;
 
     errno = 0;
 
-    const long long sl = strtoll(src, &end, 10);
+    sl = strtoll(src, &end, 10);
 
     if (end == src) {
-        // string was not a decimal number
+        /* string was not a decimal number */
         return 0;
     } else if ('\0' != *end) {
-        // extra characters ad the end
+        /* extra characters ad the end */
         return 0;
     } else if ((LLONG_MIN == sl || LLONG_MAX == sl) && ERANGE == errno) {
-        // out of range
+        /* out of range */
         return 0;
     } else if (sl > (long long)SIZE_MAX) {
-        // top big for integer
+        /* too big for integer */
         return 0;
     } else if (sl < 0) {
-        // too small for size_t
+        /* too small for size_t */
         return 0;
     }
     *dst = (int)sl;
